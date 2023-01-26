@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="{% static 'Css/Register.css' %}">
+    
+</head>
+<body>
+    <center>  
+        <h1> Registration Form</h1> 
+        <form method="post" id="RegisterForm" data_batches_url="{% url 'ajax_load_batches' %}" novalidate>
+        {% csrf_token %} 
+        <div class="container1">
+            <div class="form">
+              {{form.as_p}}
+                <button type="submit" name="register">Save 
+                </button>
+            </div>
+        </div>
+      
+    </form>
+
+</center>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+    $("#id_Course").change(function () {
+      var url = $("#RegisterForm").attr("data_batches_url");  
+      var courseId = $(this).val();  
+
+      $.ajax({                      
+        url: url,                    
+        data: {
+          'Course': courseId       
+        },
+        success: function (data) {  
+          $("#id_Batch").html(data);  
+        }
+      });
+
+    });
+  </script>
+ 
+</body>
+</html>
