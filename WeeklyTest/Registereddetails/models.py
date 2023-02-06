@@ -10,7 +10,6 @@ class Gender(models.Model):
 
 
 class Course(models.Model):
-
     
     name = models.CharField(max_length=30)
 
@@ -19,7 +18,7 @@ class Course(models.Model):
 
 
 class Batch(models.Model):
-    
+    Batch_id = models.IntegerField(primary_key=True)
     Batch_name = models.CharField(max_length=30)
     course = models.ForeignKey(Course,on_delete=models.CASCADE)
     
@@ -30,9 +29,10 @@ class Batch(models.Model):
 class userdetails(models.Model):
     First_name = models.CharField(max_length=20)
     Last_name = models.CharField(max_length=20)
+    Username = models.CharField(max_length=20,default='null',unique=True)
     Gender = models.ForeignKey(Gender,on_delete=models.CASCADE,null=True)
     Email = models.EmailField()
-    Phone = models.IntegerField()
+    Phone = models.CharField(max_length=10)
     Course = models.ForeignKey(Course,on_delete=models.CASCADE)
     Batch = models.ForeignKey(Batch,on_delete=models.CASCADE)
     Status = models.CharField(max_length=20,default='pending')

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,33 +6,109 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'Css/Admin_home.css' %}">
 </head>
 <body>
-    This is admin page
+    <center>
+    <h1>This is admin page </h1>
+        <form action="userRequest" method="post">
+            {% csrf_token %}
+           
 
-    <table>
+            
+    <table id="Table">
         <thead>
-            <tr>
-                {% for head in header %}
-                <th>{{head}}</th>
-                {% endfor %}
-            </tr>
+           <th> <input type='checkbox' class="Check_all" onclick='checkAll(this)'></th> 
+            {% for thead in header %}
+            <th>
+                
+                {{thead}}</th>
+            {% endfor %}
         </thead>
         <tbody>
+            
             {% for user in users %}
+            {% if user.Status == 'pending' %}
                 <tr>
-                    <input type="checkbox">
+                    
+                    <th ><input type="checkbox" id = 'mycheck'name='mycheck'class="check" value={{user.pk}}></th>
                     <td>{{user.First_name}}</td>
-                    <td>{{user.Email}}</td>
-                    <td>{{user.Phone}}</td>
-                    <td>{{user.Gender}}</td>
-                    <td>{{user.Course}}</td>
-                    <td>{{user.Batch}}</td>
+                    <td >{{user.Gender}}</td>
+                    <td >{{user.Email}}</td>
+                    <td >{{user.Phone}}</td>
+                    <td >{{user.Course}}</td>
+                    <td >{{user.Batch}}</td>
                 </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
-    </table>
-    <button name="approve"> Approve</button>
-    <button name="reject">Reject</button>
+        
+    </table><br>
+    <button class="apprvbtn"  onclick ="readcheckboxes()" type="submit" name="Approve" >Approve</button>
+
+
+    <button class='rejectBtn' onclick ="readcheckboxes()" name= "reject">Reject</button>
+</form>
+    </center>
+
 </body>
+<script>
+    
+     var checkboxes = document.querySelectorAll("input[type = 'checkbox']");
+     function checkAll(myCheckbox){
+        if(myCheckbox.checked == true){
+            checkboxes.forEach(function(checkbox){
+                checkbox.checked = true;
+
+            });
+        }
+        else{
+            checkboxes.forEach(function(checkbox){
+                checkbox.checked = false;
+            });
+        }
+     }
+     function readcheckboxes()
+    {
+        let checkboxes = document.getElementsByName('mycheck');
+       
+        for(let i=0;i<checkboxes.length;i++)
+        {
+            if(checkboxes[i].checked == true)
+            {
+                let ele_chk = document.getElementById('mycheck').value;
+                console.log(ele_chk)
+            }
+        }
+    }
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function()
+    {
+        $('.check').click(function()
+        {
+            var text ='';
+            $('.check:checked').eachfunction()
+            {
+                text += $(this).val()+',';
+            }
+
+        });
+        $('.apprvbtn').click(function()
+          {
+            alert("Approved");
+
+       });
+        $('.rejectBtn').click(function()
+        {
+            alert("rejected");
+        });
+
+    });
+</script>
+
 </html>
+
